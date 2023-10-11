@@ -59,21 +59,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(UserDto userDto) {
-        User existingUser = userRepository.findByEmail(userDto.getEmail());
+    public void updateUser(UserDto userDto,long id) {
+        Optional<User> user =userRepository.findById(id);
 
-        if (existingUser != null) {
-            existingUser.setName(userDto.getFirstName() + " " + userDto.getLastName());
+        if (user.isPresent()) {
+            User existingUser = user.get();
+
+            existingUser.setName(userDto.getFirstName()+" "+userDto.getLastName());
             existingUser.setPhoneNo(userDto.getPhoneNo());
             existingUser.setEmail(userDto.getEmail());
 
-
             userRepository.save(existingUser);
+
         } else {
-            throw new UserNotFoundException("Kullanıcı bulunamadı: " + userDto.getEmail());
+            throw new UserNotFoundException("Kullanıcı bulunamadı: " + userDto.getId());
         }
     }
-
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);

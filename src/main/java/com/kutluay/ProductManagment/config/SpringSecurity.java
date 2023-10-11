@@ -37,6 +37,7 @@ public class SpringSecurity {
                                 .antMatchers("/users").hasRole("ADMIN")
                                 .antMatchers("/users/deleteByEmail").hasRole("ADMIN")
                                 .antMatchers("/users/editbyemail").hasRole("ADMIN")
+                                .antMatchers("/edit").hasRole("ADMIN")
 
 
                 )

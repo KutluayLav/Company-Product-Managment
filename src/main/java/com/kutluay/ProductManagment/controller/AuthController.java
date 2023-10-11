@@ -1,8 +1,10 @@
 package com.kutluay.ProductManagment.controller;
 
 import com.kutluay.ProductManagment.dto.UserDto;
+import com.kutluay.ProductManagment.dto.UserToUserDtoConverter;
 import com.kutluay.ProductManagment.model.User;
 import com.kutluay.ProductManagment.service.UserService;
+import com.kutluay.ProductManagment.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -66,20 +68,20 @@ public class AuthController {
     @GetMapping("/users/editbyemail")
     public String showEditForm(@RequestParam("email") String email, Model model) {
         User user = userService.findUserByEmail(email);
-        model.addAttribute("user", user);
+        UserDto userDto= UserToUserDtoConverter.convert(user);
+        model.addAttribute("userDto", userDto);
         return "edit";
     }
 
     @PostMapping("/users/save")
-    public String saveEditedUser(@Valid @ModelAttribute("user") UserDto userDto,
+    public String saveEditedUser(@Valid @ModelAttribute("userDto") UserDto user,
                                  BindingResult result,
                                  Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("user", userDto);
+            model.addAttribute("userDto", user);
             return "edit";
         }
-
-        userService.updateUser(userDto);
+        userService.updateUser(user,user.getId());
         return "redirect:/users";
     }
 
