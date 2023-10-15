@@ -1,10 +1,9 @@
 package com.kutluay.ProductManagment.repository;
 
-import com.kutluay.ProductManagment.model.Role;
+import com.kutluay.ProductManagment.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role,Long> {
-    Role findByName(String name);
+public interface OrderRepository extends JpaRepository<Order,String> {
 }

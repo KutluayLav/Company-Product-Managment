@@ -4,7 +4,6 @@ import com.kutluay.ProductManagment.dto.UserDto;
 import com.kutluay.ProductManagment.dto.UserToUserDtoConverter;
 import com.kutluay.ProductManagment.model.User;
 import com.kutluay.ProductManagment.service.UserService;
-import com.kutluay.ProductManagment.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +29,6 @@ public class AuthController {
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model){
-        // create model object to store form data
         UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "register";
@@ -89,5 +87,14 @@ public class AuthController {
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @GetMapping("/admin")
+    public String admin(){
+        return "admin";
+    }
+    @GetMapping("/user")
+    public String user(){
+        return "user";
     }
 }

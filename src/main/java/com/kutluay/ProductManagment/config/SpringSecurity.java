@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -34,10 +35,13 @@ public class SpringSecurity {
                         authorize
                                 .antMatchers("/register/**").permitAll()
                                 .antMatchers("/index").permitAll()
+                                .antMatchers("/admin").hasRole("ADMIN")
                                 .antMatchers("/users").hasRole("ADMIN")
                                 .antMatchers("/users/deleteByEmail").hasRole("ADMIN")
                                 .antMatchers("/users/editbyemail").hasRole("ADMIN")
                                 .antMatchers("/edit").hasRole("ADMIN")
+                                .antMatchers("/user").hasRole("USER")
+
 
 
                 )
@@ -45,8 +49,7 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
-
+                                .successHandler(authenticationSuccessHandler())
                                 .permitAll()
                 )
                 .logout(
@@ -56,6 +59,19 @@ public class SpringSecurity {
                 );
         return http.build();
     }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            if (authentication.getAuthorities().stream()
+                    .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+                response.sendRedirect("/admin");
+            } else {
+                response.sendRedirect("/user");
+            }
+        };
+    }
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
