@@ -16,7 +16,7 @@ import java.util.Set;
 public class Category {
 
     @Id
-    private long id;
+    private String id;
 
     @Column(nullable = false)
     private String name;

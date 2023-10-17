@@ -1,5 +1,7 @@
 package com.kutluay.ProductManagment.controller;
 
+import com.kutluay.ProductManagment.dto.ProductConverter;
+import com.kutluay.ProductManagment.dto.ProductDto;
 import com.kutluay.ProductManagment.model.Product;
 import com.kutluay.ProductManagment.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -9,31 +11,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/admin")
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductConverter productConverter;
 
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductConverter productConverter) {
         this.productService = productService;
+        this.productConverter = productConverter;
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
-    @GetMapping("/user")
-    public String user(){
-        return "user";
-    }
     @GetMapping("/add-product")
     public String showAddProductForm(Model model) {
-        model.addAttribute("product", new Product());
+        ProductDto productDto=new ProductDto();
+        model.addAttribute("product", productDto);
         return "add-product";
     }
     @PostMapping("/add-product")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@ModelAttribute("product") Product product) {
+
+
+
         productService.addProduct(product);
         return "redirect:/admin";
     }

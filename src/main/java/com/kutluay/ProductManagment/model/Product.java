@@ -17,7 +17,7 @@ import java.util.Set;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(nullable=false)
@@ -44,5 +44,17 @@ public class Product {
     )
     private Set<Category> categories = new HashSet<>();
 
+    public Product(String name, double price,
+                   String features,
+                   long quantity,
+                   Image image,
+                   Set<Category> categories) {
+        this.name = name;
+        this.price = price;
+        this.features = features;
+        Quantity = quantity;
+        this.image = image;
+        this.categories = categories;
+    }
 
 }

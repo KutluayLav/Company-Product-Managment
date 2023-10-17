@@ -1,4 +1,7 @@
 package com.kutluay.ProductManagment.service;
+import com.kutluay.ProductManagment.dto.CategoryConverter;
+import com.kutluay.ProductManagment.dto.ImageConverter;
+import com.kutluay.ProductManagment.dto.ProductConverter;
 import com.kutluay.ProductManagment.exception.ProductNotFoundException;
 import com.kutluay.ProductManagment.model.Product;
 import com.kutluay.ProductManagment.repository.ProductRepository;
@@ -10,13 +13,22 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductConverter productConverter;
+    private final ImageConverter imageConverter;
+    private final CategoryConverter categoryConverter;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter, ImageConverter imageConverter, CategoryConverter categoryConverter) {
         this.productRepository = productRepository;
+        this.productConverter = productConverter;
+        this.imageConverter = imageConverter;
+        this.categoryConverter = categoryConverter;
     }
 
     @Override
     public Product addProduct(Product product) {
+
+        System.out.println(product);
+        System.out.println(product.getId());
         return productRepository.save(product);
     }
 

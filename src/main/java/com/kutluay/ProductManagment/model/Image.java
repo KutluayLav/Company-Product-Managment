@@ -15,11 +15,16 @@ import javax.persistence.*;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Lob
     private byte[] imageData;
+
+    public Image(String id, byte[] imageData) {
+        this.id = id;
+        this.imageData = imageData;
+    }
 
     @OneToOne
     @JoinColumn(name = "product_id")
