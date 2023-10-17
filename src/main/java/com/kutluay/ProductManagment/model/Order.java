@@ -17,7 +17,6 @@ import java.util.Set;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

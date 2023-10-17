@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -26,7 +27,8 @@ public class OrderItem {
     private Order order;
 
     private int quantity;
-    private double totolPrice;
+
+    private BigDecimal totolPrice;
 
 
 }

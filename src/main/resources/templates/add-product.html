@@ -42,8 +42,7 @@
 </nav>
 <div class="container mt-5">
   <h2 class="text-white fs-1">Add Product</h2>
-  <form action="/add-product" method="post" th:object="${product}">
-
+  <form action="/add-product" method="post" th:object="${product}" enctype="multipart/form-data">
     <div class="mb-3">
       <label for="name" class="form-label text-white">Product Name</label>
       <input type="text" class="form-control"
@@ -66,16 +65,19 @@
       <input type="text" class="form-control" id="features" name="features"
              th:field="*{features}" required>
     </div>
-    <div class="mb-3">
-      <label for="category" class="form-label text-white">Category</label>
-      <input type="text" class="form-control" id="category" th:field="*{categoriesDto}"
-             name="category" >
-    </div>
+
     <div class="mb-3">
       <label for="quantity" class="form-label text-white">Quantity</label>
       <input type="number" class="form-control" id="quantity"
              th:field="*{quantity}"
              name="quantity" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label text-white">Ürün Resmi</label>
+      <div class="input-group">
+        <input type="file" class="form-control" id="image" name="imageFile">
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Add Product</button>
   </form>

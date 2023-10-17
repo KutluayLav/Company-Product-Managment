@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,17 +17,16 @@ import java.util.Set;
 public class ProductDto {
 
 
-    private String id;
+    private long id;
     @NotEmpty
     private String name;
     @NotEmpty
-    private double price;
-
+    private BigDecimal price;
+    @NotEmpty
     private String features;
     @NotEmpty
     private long Quantity;
 
-    private ImageDto image;
-
+    private Image image;
     private Set<CategoryDto> categoriesDto=new HashSet<>();
 }

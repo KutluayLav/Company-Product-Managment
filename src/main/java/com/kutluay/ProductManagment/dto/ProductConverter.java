@@ -1,8 +1,11 @@
 package com.kutluay.ProductManagment.dto;
 
 import com.kutluay.ProductManagment.model.Category;
+import com.kutluay.ProductManagment.model.Image;
 import com.kutluay.ProductManagment.model.Product;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -14,35 +17,43 @@ import java.util.stream.Collectors;
 public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
-    private final ImageConverter imageConverter;
+
+    private final Logger logger = LoggerFactory.getLogger(ProductConverter.class);
 
     public ProductDto ProductToProductDtoConverter(Product product){
+        Set<CategoryDto> categoriesDto = product.getCategories().stream()
+                .map(categoryConverter::convertToDto)
+                .collect(Collectors.toSet());
 
-        System.out.println(product);
+        System.out.println(product+" : productConverterClass");
 
-        return new ProductDto(product.getId(),
+        return new ProductDto(
+                product.getId(),
                 product.getName(),
                 product.getPrice(),
                 product.getFeatures(),
                 product.getQuantity(),
-                imageConverter.convertToDto(product.getImage()),
-                (Set<CategoryDto>) product.getCategories()
-                        .stream()
-                        .map(t -> categoryConverter.convertToDto(t)).collect(Collectors.toList()));
+                product.getImage(),
+                categoriesDto);
     }
     public Product ProductDtoToProductConverter(ProductDto productDto) {
 
-        System.out.println(productDto);
+        logger.debug("hata product convert :"+productDto);
 
-        Product product = new Product(
+        System.out.println(productDto+" : productConverterClass");
+
+        Set<Category> categories = productDto.getCategoriesDto().stream()
+                .map(categoryConverter::convertoCategory)
+                .collect(Collectors.toSet());
+
+        Product product = new Product(productDto.getId(),
                 productDto.getName(),
                 productDto.getPrice(),
                 productDto.getFeatures(),
                 productDto.getQuantity(),
-                imageConverter.convertToImage(productDto.getImage()),
-                (Set<Category>) productDto.getCategoriesDto().stream()
-                        .map(t->categoryConverter.convertoCategory(t))
-                        .collect(Collectors.toSet()));
+                productDto.getImage(),
+                categories
+               );
 
         return product;
     }

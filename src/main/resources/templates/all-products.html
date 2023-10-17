@@ -62,11 +62,14 @@
         <tr th:each="product : ${products}">
             <td th:text="${product.name}"></td>
             <td class="text-center">
-                <img th:src="@{/templates/img/saksi.jpg}" alt="" width="250" height="200" class="img-fluid text-center">
+                <div th:each="im:${list}">
+                    <img th:src="@{/${product.image.name}}" alt="Product Image" width="250" height="200" class="img-fluid text-center">
+                         alt="Product Image" width="250" height="200" class="img-fluid text-center">
+                </div>
             </td>
             <td th:text="${'$' + product.price}"></td>
             <td th:text="${product.features}"></td>
-            <td th:text="${product.category}"></td>
+            <td th:text="${product.categories}"></td>
             <td th:text="${product.quantity}"></td>
             <td>
                 <a th:href="@{'/order/' + ${product.id}}" class="btn btn-success">
@@ -76,7 +79,6 @@
                 <a th:href="@{'/delete-product/' + ${product.id}}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
-        <!-- End of the loop -->
         </tbody>
     </table>
 </div>

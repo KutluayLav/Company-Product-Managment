@@ -2,32 +2,29 @@ package com.kutluay.ProductManagment.model;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "Images")
 public class Image {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    private String name;
+
+    private String type;
 
     @Lob
+    @Type(type = "org.hibernate.type.ImageType")
     private byte[] imageData;
-
-    public Image(String id, byte[] imageData) {
-        this.id = id;
-        this.imageData = imageData;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
 }

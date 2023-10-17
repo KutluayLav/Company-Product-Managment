@@ -4,9 +4,8 @@ package com.kutluay.ProductManagment.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,17 +13,18 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private long  id;
 
     @Column(nullable=false)
     private String name;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @Column
     private String features;
@@ -44,7 +44,7 @@ public class Product {
     )
     private Set<Category> categories = new HashSet<>();
 
-    public Product(String name, double price,
+    public Product(String name, BigDecimal price,
                    String features,
                    long quantity,
                    Image image,
