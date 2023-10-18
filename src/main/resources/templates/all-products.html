@@ -45,7 +45,7 @@
         <h2 class="text-white fs-1">Products</h2>
         <a th:href="@{/add-product}" class="btn btn-primary">Add Product</a>
     </div>
-    <table class="table table-bordered table-responsive" style="background-color: dimgray">
+    <table class="table table-bordered table-responsive" style="background-color: dimgray" >
         <thead class="text-white" style="background-color: darkred">
           <tr>
             <th>Product Name</th>
@@ -62,7 +62,7 @@
         <tr th:each="product : ${products}">
             <td th:text="${product.name}"></td>
             <td class="text-center">
-                <img th:src="@{/img/saksi.jpg}" alt="Product Image" width="250" height="200" class="img-fluid text-center">
+                    <img th:src="@{../templates/img/saksi.jpg}"  alt="Product Image" width="250" height="200" class="img-fluid text-center">
             </td>
             <td th:text="${'$' + product.price}"></td>
             <td th:text="${product.features}"></td>
