@@ -45,9 +45,6 @@ public class ProductController {
         Image uploadImage =imageService.uploadImage(imageFile);
         productDto.setImage(uploadImage);
 
-        logger.info("product controller = "+productDto);
-        logger.debug("hata product controller :"+productDto);
-
         System.out.println(productDto+" : productController");
 
         productService.addProduct(productDto);
@@ -66,6 +63,7 @@ public class ProductController {
     }
     @GetMapping("/delete-product/{productId}")
     public String deleteProduct(@PathVariable long productId) {
+
         productService.deleteProduct(productId);
         return "redirect:/admin";
     }

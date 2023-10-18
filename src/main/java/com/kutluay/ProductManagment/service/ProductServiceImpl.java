@@ -3,6 +3,7 @@ import com.kutluay.ProductManagment.dto.CategoryConverter;
 import com.kutluay.ProductManagment.dto.ProductConverter;
 import com.kutluay.ProductManagment.dto.ProductDto;
 import com.kutluay.ProductManagment.exception.ProductNotFoundException;
+import com.kutluay.ProductManagment.model.Image;
 import com.kutluay.ProductManagment.model.Product;
 import com.kutluay.ProductManagment.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -16,13 +17,15 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductConverter productConverter;
+    private final ImageService imageService;
 
 
     private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter,  CategoryConverter categoryConverter) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter, CategoryConverter categoryConverter, ImageService imageService) {
         this.productRepository = productRepository;
         this.productConverter = productConverter;
+        this.imageService = imageService;
     }
 
     @Override
@@ -38,6 +41,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(long productId) {
         Product existingProduct = productRepository.findById(productId).orElse(null);
+
+        imageService.deleteImage(existingProduct.getImage().getId());
+
         if (existingProduct != null) {
             productRepository.delete(existingProduct);
         } else {

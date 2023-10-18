@@ -17,15 +17,12 @@ import java.util.stream.Collectors;
 public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
-
     private final Logger logger = LoggerFactory.getLogger(ProductConverter.class);
 
     public ProductDto ProductToProductDtoConverter(Product product){
         Set<CategoryDto> categoriesDto = product.getCategories().stream()
                 .map(categoryConverter::convertToDto)
                 .collect(Collectors.toSet());
-
-        System.out.println(product+" : productConverterClass");
 
         return new ProductDto(
                 product.getId(),
@@ -39,8 +36,6 @@ public class ProductConverter {
     public Product ProductDtoToProductConverter(ProductDto productDto) {
 
         logger.debug("hata product convert :"+productDto);
-
-        System.out.println(productDto+" : productConverterClass");
 
         Set<Category> categories = productDto.getCategoriesDto().stream()
                 .map(categoryConverter::convertoCategory)
