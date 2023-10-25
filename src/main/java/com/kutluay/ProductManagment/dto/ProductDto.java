@@ -1,6 +1,6 @@
 package com.kutluay.ProductManagment.dto;
 
-import com.kutluay.ProductManagment.model.Image;
+import com.kutluay.ProductManagment.model.FileData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +27,7 @@ public class ProductDto {
     @NotEmpty
     private long Quantity;
 
-    private Image image;
+    private FileData fileData;
+
     private Set<CategoryDto> categoriesDto=new HashSet<>();
 }

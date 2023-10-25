@@ -1,13 +1,11 @@
 package com.kutluay.ProductManagment.dto;
 
 import com.kutluay.ProductManagment.model.Category;
-import com.kutluay.ProductManagment.model.Image;
 import com.kutluay.ProductManagment.model.Product;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,7 +28,7 @@ public class ProductConverter {
                 product.getPrice(),
                 product.getFeatures(),
                 product.getQuantity(),
-                product.getImage(),
+                product.getFileData(),
                 categoriesDto);
     }
     public Product ProductDtoToProductConverter(ProductDto productDto) {
@@ -46,7 +44,7 @@ public class ProductConverter {
                 productDto.getPrice(),
                 productDto.getFeatures(),
                 productDto.getQuantity(),
-                productDto.getImage(),
+                productDto.getFileData(),
                 categories
                );
 

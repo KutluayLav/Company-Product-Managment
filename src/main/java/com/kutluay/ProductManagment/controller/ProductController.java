@@ -1,10 +1,11 @@
 package com.kutluay.ProductManagment.controller;
 
+import com.kutluay.ProductManagment.dto.CategoryDto;
 import com.kutluay.ProductManagment.dto.ProductConverter;
 import com.kutluay.ProductManagment.dto.ProductDto;
-import com.kutluay.ProductManagment.model.Image;
+import com.kutluay.ProductManagment.model.FileData;
 import com.kutluay.ProductManagment.model.Product;
-import com.kutluay.ProductManagment.service.ImageService;
+import com.kutluay.ProductManagment.service.FileDataService;
 import com.kutluay.ProductManagment.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +21,15 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductService productService;
-    private final ImageService imageService;
+    private final FileDataService fileDataService;
     private final ProductConverter productConverter;
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 
 
-    public ProductController(ProductService productService, ImageService imageService, ProductConverter productConverter) {
+    public ProductController(ProductService productService, FileDataService fileDataService, ProductConverter productConverter) {
         this.productService = productService;
-        this.imageService = imageService;
+        this.fileDataService = fileDataService;
         this.productConverter = productConverter;
     }
 
@@ -42,8 +43,8 @@ public class ProductController {
     public String addProduct(@ModelAttribute("product") ProductDto productDto,
                    @RequestPart("imageFile")  MultipartFile imageFile) throws IOException {
 
-        Image uploadImage =imageService.uploadImage(imageFile);
-        productDto.setImage(uploadImage);
+        FileData uploadImage = fileDataService.uploadImageToFileSystem(imageFile);
+        productDto.setFileData(uploadImage);
 
         System.out.println(productDto+" : productController");
 
@@ -62,8 +63,7 @@ public class ProductController {
         return "redirect:/admin";
     }
     @GetMapping("/delete-product/{productId}")
-    public String deleteProduct(@PathVariable long productId) {
-
+    public String deleteProduct(@PathVariable long productId) throws IOException {
         productService.deleteProduct(productId);
         return "redirect:/admin";
     }
@@ -71,5 +71,11 @@ public class ProductController {
     public String listAllProducts(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         return "all-products";
+    }
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam String name, Model model) {
+        Product searchResults = productService.searchProducts(name);
+        model.addAttribute("products", searchResults);
+      return "all-products";
     }
 }

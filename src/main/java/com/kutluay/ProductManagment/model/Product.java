@@ -32,9 +32,9 @@ public class Product {
     @Column(nullable = false)
     private long Quantity;
 
-    @OneToOne
-    @JoinColumn(name = "image_id")
-    private Image image;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "file_id")
+    private FileData fileData;
 
     @ManyToMany
     @JoinTable(
@@ -47,13 +47,13 @@ public class Product {
     public Product(String name, BigDecimal price,
                    String features,
                    long quantity,
-                   Image image,
+                   FileData fileData,
                    Set<Category> categories) {
         this.name = name;
         this.price = price;
         this.features = features;
         Quantity = quantity;
-        this.image = image;
+        this.fileData = fileData;
         this.categories = categories;
     }
 

@@ -32,6 +32,7 @@ public class SpringSecurity {
         http.csrf().disable()
                 .authorizeRequests((authorize) ->
                         authorize
+                                .antMatchers("/images/**").permitAll()
                                 .antMatchers("/register/**").permitAll()
                                 .antMatchers("/index").permitAll()
                                 .antMatchers("/admin").hasRole("ADMIN")
@@ -40,6 +41,8 @@ public class SpringSecurity {
                                 .antMatchers("/users/editbyemail").hasRole("ADMIN")
                                 .antMatchers("/edit").hasRole("ADMIN")
                                 .antMatchers("/user").hasRole("USER")
+                                .antMatchers("all-products").permitAll()
+
 
 
 
@@ -56,6 +59,7 @@ public class SpringSecurity {
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                 );
+
         return http.build();
     }
 

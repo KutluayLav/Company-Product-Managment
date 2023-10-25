@@ -26,6 +26,11 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Product> products=new HashSet<>();
+    private Set<Product> products;
+
+    public Category(String name,Set<Product> products){
+        this.name=name;
+        this.products=products;
+    }
 
 }

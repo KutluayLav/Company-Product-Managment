@@ -11,11 +11,13 @@ import java.util.Optional;
 public interface ProductService {
     Product addProduct(ProductDto productDto) ;
 
-    void deleteProduct(long productId);
+    void deleteProduct(long productId) throws IOException;
 
     Product updateProduct(long productId, Product updatedProduct);
 
     List<Product> getAllProducts();
 
     Optional<Product> getProductById(long productId);
+
+    Product searchProducts(String name);
 }

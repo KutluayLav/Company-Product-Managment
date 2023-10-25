@@ -3,12 +3,14 @@ import com.kutluay.ProductManagment.dto.CategoryConverter;
 import com.kutluay.ProductManagment.dto.ProductConverter;
 import com.kutluay.ProductManagment.dto.ProductDto;
 import com.kutluay.ProductManagment.exception.ProductNotFoundException;
-import com.kutluay.ProductManagment.model.Image;
+
 import com.kutluay.ProductManagment.model.Product;
 import com.kutluay.ProductManagment.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,15 +19,16 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductConverter productConverter;
-    private final ImageService imageService;
+
+    private final FileDataService fileDataService;
 
 
     private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter, CategoryConverter categoryConverter, ImageService imageService) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductConverter productConverter, CategoryConverter categoryConverter, FileDataService fileDataService) {
         this.productRepository = productRepository;
         this.productConverter = productConverter;
-        this.imageService = imageService;
+        this.fileDataService = fileDataService;
     }
 
     @Override
@@ -39,10 +42,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(long productId) {
+    public void deleteProduct(long productId) throws IOException {
         Product existingProduct = productRepository.findById(productId).orElse(null);
 
-        imageService.deleteImage(existingProduct.getImage().getId());
+        fileDataService.deleteImage(existingProduct.getFileData().getId());
 
         if (existingProduct != null) {
             productRepository.delete(existingProduct);
@@ -59,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
             existingProduct.setPrice(updatedProduct.getPrice());
             existingProduct.setFeatures(updatedProduct.getFeatures());
             existingProduct.setQuantity(updatedProduct.getQuantity());
-            existingProduct.setImage(updatedProduct.getImage());
+            existingProduct.setFileData(updatedProduct.getFileData());
             existingProduct.setCategories(updatedProduct.getCategories());
             return productRepository.save(existingProduct);
         } else {
@@ -75,6 +78,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> getProductById(long productId) {
         return productRepository.findById(productId);
+    }
+
+    @Override
+    public Product searchProducts(String name) {
+        Product product = productRepository.findByName(name);
+        return product;
     }
 
 }
